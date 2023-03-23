@@ -53,7 +53,7 @@ const NoteScreen = ({ navigation, route }) => {
     const [id, setId] = useState(route.params ? route.params.id : -1)
     const [name, setName] = useState(route.params ? route.params.name : '')
     const [note, setNote] = useState(route.params ? route.params.note : '')
-    const [createdDate, setCreatedDate] = useState(route.params ? new Date(route.params.createdDate) : convertToTimeZone(new Date()))
+    const [createdDate, setCreatedDate] = useState(route.params ? new Date(route.params.createdDate) : new Date())
     const [editable, setEditable] = useState(route.params ? route.params.editable : true);
     const [checklist, setChecklist] = useState(route.params ? JSON.parse(route.params.checklist) : [])
     const [visible, setVisible] = useState(false);

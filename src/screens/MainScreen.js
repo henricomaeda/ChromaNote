@@ -22,10 +22,7 @@ import {
 } from '../utils/functions/StorageData';
 
 // Import timezone and date functions.
-import {
-    convertToTimeZone,
-    formatDate
-} from '../utils/functions/DateHelpers';
+import { formatDate } from '../utils/functions/DateHelpers';
 
 // Import global styles and define styles.
 import globalStyles from '../utils/constants/Styles'

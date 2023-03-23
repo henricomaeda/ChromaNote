@@ -39,14 +39,3 @@ export const formatDate = (dateToFormat, long = true) => {
 
         return formattedDate;
 };
-
-/**
- * Converts a given date object to Brazil time zone.
- * @param {Date} date - The date object to convert.
- * @returns {Date} A new date object representing the same date and time in the specified time zone.
- */
-export const convertToTimeZone = (date) => {
-        const offset = -3 * 60; // -3 hours in minutes
-        const offsetDate = new Date(date.getTime() + offset * 60 * 1000);
-        return offsetDate;
-}
