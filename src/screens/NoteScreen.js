@@ -357,8 +357,12 @@ const NoteScreen = ({ navigation, route }) => {
                             style={[styles.floatButton, styles.highlightButton]}
                             onPress={() => {
                                 if (!name || name.trim().length == 0) Alert.alert(global.appName, 'Please provide a title for your note.');
-                                else if (!note || note.trim().length == 0) Alert.alert(global.appName, 'Make a note of something.');
                                 else {
+                                    const filteredData = checklist.filter(item => item.name && item.name.trim().length > 0);
+
+                                    if (filteredData.length == 0) setChecklist([]);
+                                    else setChecklist(filteredData);
+
                                     saveData();
                                     setEditable(!editable);
                                 }
