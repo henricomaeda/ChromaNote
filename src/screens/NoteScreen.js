@@ -1,6 +1,7 @@
 // Import necessary libraries and modules.
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import React, { useState, useRef, createRef } from 'react';
+import React, { useState, useRef, createRef, useEffect } from 'react';
+import { StackActions } from '@react-navigation/native';
 import {
     TouchableOpacity,
     ScrollView,
@@ -58,6 +59,15 @@ const NoteScreen = ({ navigation, route }) => {
     const [checklist, setChecklist] = useState(route.params ? JSON.parse(route.params.checklist) : [])
     const [visible, setVisible] = useState(false);
 
+    // Initialize an constructor.
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            editable && newNoteInitialRef.current.focus()
+        }, 200);
+
+        return () => clearTimeout(timer);
+    }, []);
+
     // Defines a variable to count the number of words in note.
     const wordCount = note ? note.trim().split(/\s+/).length : 0;
 
@@ -89,7 +99,10 @@ const NoteScreen = ({ navigation, route }) => {
             storeData('notes', sortedData, true);
 
             // Return to the main screen.
-            if (id == -1) navigation.pop();
+            if (id == -1) {
+                navigation.popToTop();
+                navigation.dispatch(StackActions.replace("MainScreen"));
+            }
         }
         catch (error) {
             console.log('Error saving data:', error);
@@ -197,6 +210,7 @@ const NoteScreen = ({ navigation, route }) => {
                         value={name}
                         editable={editable}
                         onChangeText={changeText}
+                        selectionColor={global.deepShadeColor}
                         style={[{
                             fontSize: global.windowWidth / 20,
                             color: global.shadeColor,
@@ -233,6 +247,7 @@ const NoteScreen = ({ navigation, route }) => {
     }
 
     // Creates a reference to the ScrollView using the useRef hook;
+    const newNoteInitialRef = useRef();
     const scrollViewRef = useRef();
 
     // Sets the visible state based on whether the vertical position is;
@@ -261,12 +276,14 @@ const NoteScreen = ({ navigation, route }) => {
                 }}>
                 {!name || editable ? (
                     <TextInput
+                        ref={newNoteInitialRef}
                         value={name}
                         maxLength={60}
                         editable={editable}
                         onChangeText={setName}
                         placeholder='Add title here'
                         placeholderTextColor={global.shadeColor}
+                        selectionColor={global.shadeColor}
                         style={{
                             fontSize: global.windowWidth / 18,
                             color: global.tintColor,
@@ -301,6 +318,7 @@ const NoteScreen = ({ navigation, route }) => {
                         textAlignVertical: 'top',
                         padding: 0,
                     }}
+                    selectionColor={global.deepShadeColor}
                     placeholder='Add your thoughts and ideas'
                     placeholderTextColor={shadeColor}
                     onChangeText={setNote}
@@ -360,10 +378,8 @@ const NoteScreen = ({ navigation, route }) => {
                                 else {
                                     const filteredData = checklist.filter(item => item.name && item.name.trim().length > 0);
 
-                                    if (filteredData.length == 0) setChecklist([]);
-                                    else setChecklist(filteredData);
-
-                                    saveData();
+                                    setChecklist(filteredData);
+                                    saveData(filteredData);
                                     setEditable(!editable);
                                 }
                             }}>

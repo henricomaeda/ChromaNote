@@ -9,10 +9,10 @@ import {
   DefaultTheme
 } from '@react-navigation/native';
 
-// Import global variables and screen components.
-import './src/utils/constants/Globals';
+// Import screen components and global variables.
 import MainScreen from './src/screens/MainScreen';
 import NoteScreen from './src/screens/NoteScreen';
+import './src/utils/constants/Globals';
 
 // Define the navigation's theme color.
 const NavigationTheme = {
@@ -43,7 +43,7 @@ export default function App() {
           },
           headerLeft: () => route.name != 'MainScreen' && (
             <TouchableOpacity
-              style={{ marginRight: global.windowWidth / 22 }}
+              style={{ marginRight: global.windowWidth / 20 }}
               onPress={() => {
                 navigation.popToTop();
                 navigation.dispatch(StackActions.replace("MainScreen"));
@@ -61,9 +61,9 @@ export default function App() {
                 navigation.dispatch(StackActions.replace(route.name))
               }>
               <Icon
-                name={route.name != 'MainScreen' ? 'backspace' : 'cached'}
                 color={global.deepShadeColor}
-                size={global.windowWidth / 18}
+                name={route.name != 'MainScreen' ? 'backspace' : 'cached'}
+                size={route.name != 'MainScreen' ? global.windowWidth / 20 : global.windowWidth / 18}
               />
             </TouchableOpacity>
           )

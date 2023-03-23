@@ -221,8 +221,14 @@ const MainScreen = ({ navigation }) => {
                         </Text>
                         <Text
                             numberOfLines={moreDetails ? 4 : 2}
-                            style={styles.noteText}>
-                            {item.note}
+                            style={[styles.noteText, (!item.note || item.note.trim().length == 0) && {
+                                color: global.deepShadeColor
+                            }]}>
+                            {
+                                !item.note || item.note.trim().length == 0
+                                    ? "There's no annotation in this note ..."
+                                    : item.note
+                            }
                         </Text>
                         <View
                             style={{
